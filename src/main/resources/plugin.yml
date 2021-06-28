@@ -1,0 +1,7 @@
+name: Mobz
+version: 0.1
+main: com.itsazza.mobz.Mobz
+api-version: 1.17
+commands:
+  test:
+    aliases: ["t"]
