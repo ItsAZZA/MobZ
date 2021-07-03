@@ -1,106 +1,38 @@
 package com.itsazza.mobz
 
+import com.itsazza.mobz.menu.mobs.AxolotlMenu
+import de.themoep.inventorygui.InventoryGui
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
+import java.lang.IllegalArgumentException
 
-enum class BasicMobAttribute(val attribute: String) {
-    NO_AI("NoAI"),
-    BABY("IsBaby"),
-    INVULNERABLE("Invulnerable"),
-    PERSISTENT("PersistenceRequired"),
-    SILENT("Silent"),
-    CAN_PICK_UP_LOOT("CanPickUpLoot"),
-    CAN_BREAK_DOORS("CanBreakDoors"),
-    LEFT_HANDED("LeftHanded"),
-    POWERED("powered"),
-    TAME("Tame"),
-    WITH_CHEST("ChestedHorse"),
+enum class BasicMobAttribute(val nbtAttribute: String, val dataType: AttributeDataType, val icon: Material = Material.DIAMOND) {
+    NO_AI("NoAI", AttributeDataType.INT, Material.PHANTOM_MEMBRANE),
+    BABY("IsBaby", AttributeDataType.INT, Material.BAT_SPAWN_EGG),
+    INVULNERABLE("Invulnerable", AttributeDataType.INT, Material.NETHERITE_INGOT),
+    PERSISTENT("PersistenceRequired", AttributeDataType.INT),
+    SILENT("Silent", AttributeDataType.INT),
+    CAN_PICK_UP_LOOT("CanPickUpLoot", AttributeDataType.BYTE, Material.DROPPER),
+    CAN_BREAK_DOORS("CanBreakDoors", AttributeDataType.BYTE, Material.OAK_DOOR),
+    LEFT_HANDED("LeftHanded", AttributeDataType.BYTE),
+    POWERED("powered", AttributeDataType.INT, Material.NETHER_STAR),
+    TAME("Tame", AttributeDataType.INT, Material.HAY_BLOCK),
+    WITH_CHEST("ChestedHorse", AttributeDataType.BYTE, Material.CHEST),
+    SITTING("Sitting", AttributeDataType.INT)
 }
 
-fun EntityType.mobAttributes(): List<BasicMobAttribute> {
-    return when (this.name) {
-        "ZOMBIE",
-        "ZOMBIFIED_PIGLIN",
-        "DROWNED",
-        "HUSK" -> listOf(
-            BasicMobAttribute.NO_AI,
-            BasicMobAttribute.INVULNERABLE,
-            BasicMobAttribute.PERSISTENT,
-            BasicMobAttribute.SILENT,
-            BasicMobAttribute.CAN_PICK_UP_LOOT,
-            BasicMobAttribute.CAN_BREAK_DOORS,
-            BasicMobAttribute.LEFT_HANDED
-        )
-        "SKELETON",
-        "ENDERMAN",
-        "EVOKER",
-        "GIANT",
-        "ILLUSIONER" -> listOf(
-            BasicMobAttribute.NO_AI,
-            BasicMobAttribute.INVULNERABLE,
-            BasicMobAttribute.PERSISTENT,
-            BasicMobAttribute.SILENT,
-            BasicMobAttribute.CAN_PICK_UP_LOOT,
-            BasicMobAttribute.LEFT_HANDED
-        )
-        "AXOLOTL",
-        "BEE",
-        "CAT",
-        "CHICKEN",
-        "COW",
-        "FOX",
-        "GOAT",
-        "HOGLIN" -> listOf(
-            BasicMobAttribute.BABY,
-            BasicMobAttribute.NO_AI,
-            BasicMobAttribute.INVULNERABLE,
-            BasicMobAttribute.PERSISTENT,
-            BasicMobAttribute.SILENT,
-            BasicMobAttribute.CAN_PICK_UP_LOOT
-        )
-        "BAT",
-        "BLAZE",
-        "CAVE_SPIDER",
-        "COD",
-        "DOLPHIN",
-        "ELDER_GUARDIAN",
-        "ENDER_DRAGON",
-        "ENDERMITE",
-        "GHAST",
-        "GLOW_SQUID",
-        "GUARDIAN" -> listOf(
-            BasicMobAttribute.NO_AI,
-            BasicMobAttribute.INVULNERABLE,
-            BasicMobAttribute.PERSISTENT,
-            BasicMobAttribute.SILENT,
-            BasicMobAttribute.CAN_PICK_UP_LOOT
-        )
-        "CREEPER" -> listOf(
-            BasicMobAttribute.NO_AI,
-            BasicMobAttribute.INVULNERABLE,
-            BasicMobAttribute.PERSISTENT,
-            BasicMobAttribute.SILENT,
-            BasicMobAttribute.CAN_PICK_UP_LOOT,
-            BasicMobAttribute.POWERED
-        )
-        "DONKEY",
-        "HORSE" -> listOf(
-            BasicMobAttribute.NO_AI,
-            BasicMobAttribute.INVULNERABLE,
-            BasicMobAttribute.PERSISTENT,
-            BasicMobAttribute.SILENT,
-            BasicMobAttribute.CAN_PICK_UP_LOOT,
-            BasicMobAttribute.TAME,
-            BasicMobAttribute.WITH_CHEST
-        )
-        else -> emptyList()
-    }
+enum class AttributeDataType {
+    INT,
+    BYTE
 }
 
-fun EntityType.spawnEgg() : Material {
-    return when(this.name) {
+val EntityType.spawnEgg: Material
+    get() = when (this.name) {
         "PIG_ZOMBIE" -> Material.ZOMBIFIED_PIGLIN_SPAWN_EGG
         "MUSHROOM_COW" -> Material.MOOSHROOM_SPAWN_EGG
         else -> Material.values().firstOrNull { it.name == "${this.name}_SPAWN_EGG" } ?: Material.SHEEP_SPAWN_EGG
     }
-}
+
+val mobMenus = mapOf (
+    "AXOLOTL" to AxolotlMenu
+)
