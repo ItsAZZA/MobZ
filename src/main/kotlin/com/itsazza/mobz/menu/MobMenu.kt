@@ -14,7 +14,7 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 
-abstract class MobMenu(private val mobType: EntityType, private val data: NBTContainer = NBTContainer()) {
+abstract class MobMenu(private val mobType: EntityType, val data: NBTContainer = NBTContainer()) {
     open fun open(player: Player) {
        create().show(player)
     }
@@ -29,7 +29,7 @@ abstract class MobMenu(private val mobType: EntityType, private val data: NBTCon
             " 0000000 ",
             " 0000000 ",
             " 0000000 ",
-            "< 12=34  >"
+            "< 12@34 >"
         )
     ).also {
         it.setCloseAction { false }
@@ -38,7 +38,8 @@ abstract class MobMenu(private val mobType: EntityType, private val data: NBTCon
             Buttons.close,
             Buttons.nextPage,
             Buttons.previousPage,
-            spawnEggButton
+            spawnEggButton,
+            commandBlockButton
         )
     }
 
@@ -47,7 +48,8 @@ abstract class MobMenu(private val mobType: EntityType, private val data: NBTCon
         BasicMobAttribute.PERSISTENT,
         BasicMobAttribute.INVULNERABLE,
         BasicMobAttribute.SILENT,
-        BasicMobAttribute.CAN_PICK_UP_LOOT
+        BasicMobAttribute.CAN_PICK_UP_LOOT,
+        BasicMobAttribute.GLOWING
     )
 
     open val buttons: MutableList<GuiElement> = mutableListOf()
@@ -68,11 +70,11 @@ abstract class MobMenu(private val mobType: EntityType, private val data: NBTCon
             '!',
             attribute.icon.item,
             {
-                // Get the NBTContainer and add/remove the element, maybe make it state element
                 when (attribute.dataType) {
                     AttributeDataType.INT -> data.setInteger(attribute.nbtAttribute, 1)
                     AttributeDataType.BYTE -> data.setByte(attribute.nbtAttribute, 1.toByte())
                 }
+                it.event.whoClicked.sendMessage("$data")
                 return@StaticGuiElement true
             },
             "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
@@ -88,6 +90,29 @@ abstract class MobMenu(private val mobType: EntityType, private val data: NBTCon
         {
             val player = it.event.whoClicked as Player
             player.inventory.addItem(NBT.spawnEgg(mobType.spawnEgg, data.toString()))
+            return@StaticGuiElement true
+        }
+    )
+
+    private val commandBlockButton: StaticGuiElement
+    get() = StaticGuiElement(
+        '3',
+        Material.COMMAND_BLOCK.item,
+        {
+            val player = it.event.whoClicked as Player
+            val type = mobType.key.toString()
+            val command = "minecraft:summon $type ~ ~1 ~ $data"
+            val commandBlock = NBT.commandBlockWithCommand(command)
+            player.inventory.addItem(commandBlock)
+            return@StaticGuiElement true
+        }
+    )
+
+    private val spawnerButton: StaticGuiElement
+    get() = StaticGuiElement(
+        '4',
+        Material.SPAWNER.item,
+        {
             return@StaticGuiElement true
         }
     )

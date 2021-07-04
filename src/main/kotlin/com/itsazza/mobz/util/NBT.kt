@@ -13,4 +13,12 @@ object NBT {
         spawnEggItem.mergeCompound(tag)
         return spawnEggItem.item
     }
+
+    fun commandBlockWithCommand(command: String): ItemStack {
+        val commandBlockItem = NBTItem(Material.COMMAND_BLOCK.item)
+        val tag = commandBlockItem.getOrCreateCompound("BlockEntityTag")
+        tag.setString("Command", command)
+        commandBlockItem.mergeCompound(tag)
+        return commandBlockItem.item
+    }
 }

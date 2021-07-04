@@ -1,7 +1,6 @@
 package com.itsazza.mobz.menu
 
-import com.itsazza.mobz.menu.mobs.AxolotlMenu
-import com.itsazza.mobz.mobMenus
+import com.itsazza.mobz.menu
 import com.itsazza.mobz.spawnEgg
 import com.itsazza.mobz.util.StringUtil
 import com.itsazza.mobz.util.item
@@ -11,7 +10,6 @@ import de.themoep.inventorygui.GuiElementGroup
 import de.themoep.inventorygui.InventoryGui
 import de.themoep.inventorygui.StaticGuiElement
 import org.bukkit.Material
-import org.bukkit.entity.Axolotl
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 
@@ -56,7 +54,7 @@ object MobZMainMenu {
             {
                 val player = it.event.whoClicked as Player
                 if (it.event.isLeftClick) {
-                    mobMenus.getOrDefault(entityType.name, AxolotlMenu).open(player)
+                    entityType.menu.show(player)
                     return@StaticGuiElement true
                 } else if (it.event.isRightClick) {
                     player.inventory.addItem(spawnEggItem)

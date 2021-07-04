@@ -3,6 +3,7 @@ package com.itsazza.mobz.util.menu
 import com.itsazza.mobz.Mobz
 import de.themoep.inventorygui.InventoryGui
 
+
 object MenuTemplate {
     fun create(name: String, template: Array<String>) : InventoryGui {
         return InventoryGui(

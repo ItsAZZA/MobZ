@@ -18,7 +18,8 @@ enum class BasicMobAttribute(val nbtAttribute: String, val dataType: AttributeDa
     POWERED("powered", AttributeDataType.INT, Material.NETHER_STAR),
     TAME("Tame", AttributeDataType.INT, Material.HAY_BLOCK),
     WITH_CHEST("ChestedHorse", AttributeDataType.BYTE, Material.CHEST),
-    SITTING("Sitting", AttributeDataType.INT)
+    SITTING("Sitting", AttributeDataType.INT),
+    GLOWING("Glowing", AttributeDataType.BYTE, Material.GLOWSTONE)
 }
 
 enum class AttributeDataType {
@@ -33,6 +34,8 @@ val EntityType.spawnEgg: Material
         else -> Material.values().firstOrNull { it.name == "${this.name}_SPAWN_EGG" } ?: Material.SHEEP_SPAWN_EGG
     }
 
-val mobMenus = mapOf (
-    "AXOLOTL" to AxolotlMenu
-)
+val EntityType.menu: InventoryGui
+    get() = when (this.name) {
+        "AXOLOTL" -> AxolotlMenu().create()
+        else -> AxolotlMenu().create()
+    }
