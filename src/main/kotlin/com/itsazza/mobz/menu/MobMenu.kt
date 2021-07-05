@@ -11,18 +11,18 @@ import com.itsazza.mobz.util.menu.Buttons
 import de.themoep.inventorygui.*
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 
-abstract class MobMenu(private val mobType: EntityType, val data: NBTContainer = NBTContainer()) {
-    open fun open(player: Player) {
-       create().show(player)
-    }
+abstract class MobMenu(private val mobType: EntityType) {
+    open val data = NBTContainer()
 
     private val gui: InventoryGui = InventoryGui(
         Mobz.instance,
         null,
-        "",
+        "${StringUtil.bountifyCapitalized(mobType.name)} Editor",
         arrayOf(
             "         ",
             " 0000000 ",
@@ -39,7 +39,8 @@ abstract class MobMenu(private val mobType: EntityType, val data: NBTContainer =
             Buttons.nextPage,
             Buttons.previousPage,
             spawnEggButton,
-            commandBlockButton
+            commandBlockButton,
+            spawnerButton
         )
     }
 
@@ -65,21 +66,44 @@ abstract class MobMenu(private val mobType: EntityType, val data: NBTContainer =
         return gui
     }
 
-    private fun createBasicAttributeButton(attribute: BasicMobAttribute) : StaticGuiElement {
-        return StaticGuiElement(
+    private fun createBasicAttributeButton(attribute: BasicMobAttribute) : GuiStateElement {
+        val state = if (data.hasKey(attribute.nbtAttribute)) "true" else "false"
+
+        return GuiStateElement(
             '!',
-            attribute.icon.item,
-            {
-                when (attribute.dataType) {
-                    AttributeDataType.INT -> data.setInteger(attribute.nbtAttribute, 1)
-                    AttributeDataType.BYTE -> data.setByte(attribute.nbtAttribute, 1.toByte())
-                }
-                it.event.whoClicked.sendMessage("$data")
-                return@StaticGuiElement true
-            },
-            "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
-            "§0 ",
-            "§7Some description"
+            state,
+            GuiStateElement.State(
+                {
+                    when (attribute.dataType) {
+                        AttributeDataType.INT -> data.setInteger(attribute.nbtAttribute, 1)
+                        AttributeDataType.BYTE -> data.setByte(attribute.nbtAttribute, 1.toByte())
+                    }
+                },
+                "true",
+                attribute.icon.item.also {
+                    val itemMeta = it.itemMeta!!
+                    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+                    itemMeta.addEnchant(Enchantment.LUCK, 1, true)
+                    it.itemMeta = itemMeta
+                },
+                "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
+                "§0 ",
+                "§2➤ true",
+                "§0 ",
+                "§eClick to toggle!"
+            ),
+            GuiStateElement.State(
+                {
+                    data.removeKey(attribute.nbtAttribute)
+                },
+                "false",
+                attribute.icon.item,
+                "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
+                "§0 ",
+                "§c➤ false",
+                "§0 ",
+                "§eClick to toggle!"
+            )
         )
     }
 
@@ -113,6 +137,8 @@ abstract class MobMenu(private val mobType: EntityType, val data: NBTContainer =
         '4',
         Material.SPAWNER.item,
         {
+            val player = it.event.whoClicked as Player
+            player.inventory.addItem(NBT.spawner(mobType, data.toString()))
             return@StaticGuiElement true
         }
     )

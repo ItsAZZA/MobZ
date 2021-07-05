@@ -1,7 +1,10 @@
 package com.itsazza.mobz
 
 import com.itsazza.mobz.menu.mobs.AxolotlMenu
+import com.itsazza.mobz.menu.mobs.BatMobMenu
+import com.itsazza.mobz.menu.mobs.BeeMobMenu
 import de.themoep.inventorygui.InventoryGui
+import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import java.lang.IllegalArgumentException
@@ -19,7 +22,9 @@ enum class BasicMobAttribute(val nbtAttribute: String, val dataType: AttributeDa
     TAME("Tame", AttributeDataType.INT, Material.HAY_BLOCK),
     WITH_CHEST("ChestedHorse", AttributeDataType.BYTE, Material.CHEST),
     SITTING("Sitting", AttributeDataType.INT),
-    GLOWING("Glowing", AttributeDataType.BYTE, Material.GLOWSTONE)
+    GLOWING("Glowing", AttributeDataType.BYTE, Material.GLOWSTONE),
+    HAS_NECTAR("HasNectar", AttributeDataType.INT, Material.HONEY_BOTTLE),
+    HAS_STUNG("HasStung", AttributeDataType.INT, Material.POINTED_DRIPSTONE)
 }
 
 enum class AttributeDataType {
@@ -37,5 +42,7 @@ val EntityType.spawnEgg: Material
 val EntityType.menu: InventoryGui
     get() = when (this.name) {
         "AXOLOTL" -> AxolotlMenu().create()
+        "BAT" -> BatMobMenu().create()
+        "BEE" -> BeeMobMenu().create()
         else -> AxolotlMenu().create()
     }

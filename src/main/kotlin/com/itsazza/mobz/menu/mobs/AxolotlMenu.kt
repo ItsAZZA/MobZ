@@ -1,11 +1,8 @@
 package com.itsazza.mobz.menu.mobs
 
-import com.itsazza.mobz.BasicMobAttribute
 import com.itsazza.mobz.menu.MobMenu
 import com.itsazza.mobz.util.item
-import de.themoep.inventorygui.GuiElement
 import de.themoep.inventorygui.GuiStateElement
-import de.themoep.inventorygui.StaticGuiElement
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
