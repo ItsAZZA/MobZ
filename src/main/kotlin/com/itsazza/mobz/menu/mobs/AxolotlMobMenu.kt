@@ -3,10 +3,11 @@ package com.itsazza.mobz.menu.mobs
 import com.itsazza.mobz.menu.MobMenu
 import com.itsazza.mobz.util.item
 import de.themoep.inventorygui.GuiStateElement
+import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
-class AxolotlMenu : MobMenu(EntityType.AXOLOTL) {
+class AxolotlMobMenu(override val data: NBTContainer) : MobMenu(EntityType.AXOLOTL) {
     override val buttons = super.buttons.also {
         it.add(axolotlTypeSelector)
     }

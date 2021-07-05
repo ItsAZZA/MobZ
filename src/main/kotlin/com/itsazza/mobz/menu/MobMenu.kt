@@ -17,12 +17,11 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 
 abstract class MobMenu(private val mobType: EntityType) {
-    open val data = NBTContainer()
+    abstract val data: NBTContainer
 
     private val gui: InventoryGui = InventoryGui(
         Mobz.instance,
         null,
-        "${StringUtil.bountifyCapitalized(mobType.name)} Editor",
         arrayOf(
             "         ",
             " 0000000 ",
@@ -62,6 +61,8 @@ abstract class MobMenu(private val mobType: EntityType) {
 
         val group = GuiElementGroup('0')
         group.addElements(buttons)
+
+        gui.title = "${StringUtil.bountifyCapitalized(mobType.name)} Menu"
         gui.addElement(group)
         return gui
     }

@@ -1,13 +1,10 @@
 package com.itsazza.mobz
 
-import com.itsazza.mobz.menu.mobs.AxolotlMenu
-import com.itsazza.mobz.menu.mobs.BatMobMenu
-import com.itsazza.mobz.menu.mobs.BeeMobMenu
+import com.itsazza.mobz.menu.mobs.*
 import de.themoep.inventorygui.InventoryGui
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
-import java.lang.IllegalArgumentException
 
 enum class BasicMobAttribute(val nbtAttribute: String, val dataType: AttributeDataType, val icon: Material = Material.DIAMOND) {
     NO_AI("NoAI", AttributeDataType.INT, Material.PHANTOM_MEMBRANE),
@@ -39,10 +36,18 @@ val EntityType.spawnEgg: Material
         else -> Material.values().firstOrNull { it.name == "${this.name}_SPAWN_EGG" } ?: Material.SHEEP_SPAWN_EGG
     }
 
-val EntityType.menu: InventoryGui
-    get() = when (this.name) {
-        "AXOLOTL" -> AxolotlMenu().create()
-        "BAT" -> BatMobMenu().create()
-        "BEE" -> BeeMobMenu().create()
-        else -> AxolotlMenu().create()
+fun EntityType.menu(data: NBTContainer = NBTContainer()): InventoryGui {
+    return when (this.name) {
+        "AXOLOTL" -> AxolotlMobMenu(data).create()
+        "BAT" -> BatMobMenu(data).create()
+        "BEE" -> BeeMobMenu(data).create()
+        "BLAZE" -> BlazeMobMenu(data).create()
+        "CAT" -> CatMobMenu(data).create()
+        "CAVE_SPIDER" -> CaveSpiderMobMenu(data).create()
+        "CHICKEN" -> ChickenMobMenu(data).create()
+        "COD" -> CodMobMenu(data).create()
+        "COW" -> CowMobMenu(data).create()
+        "CREEPER" -> CreeperMobMenu(data).create()
+        else -> AxolotlMobMenu(data).create()
     }
+}
