@@ -1,10 +1,13 @@
 package com.itsazza.mobz
 
+import com.itsazza.mobz.menu.MobMenu
 import com.itsazza.mobz.menu.mobs.*
 import de.themoep.inventorygui.InventoryGui
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.Material
+import org.bukkit.entity.Dolphin
 import org.bukkit.entity.EntityType
+import java.lang.IllegalArgumentException
 
 enum class BasicMobAttribute(val nbtAttribute: String, val dataType: AttributeDataType, val icon: Material = Material.DIAMOND) {
     NO_AI("NoAI", AttributeDataType.INT, Material.PHANTOM_MEMBRANE),
@@ -48,6 +51,65 @@ fun EntityType.menu(data: NBTContainer = NBTContainer()): InventoryGui {
         "COD" -> CodMobMenu(data).create()
         "COW" -> CowMobMenu(data).create()
         "CREEPER" -> CreeperMobMenu(data).create()
-        else -> AxolotlMobMenu(data).create()
+        "DOLPHIN" -> DolphinMobMenu(data).create()
+        "DONKEY" -> DonkeyMobMenu(data).create()
+        "DROWNED" -> DrownedMobMenu(data).create()
+        "ELDER_GUARDIAN" -> ElderGuardianMobMenu(data).create()
+        "ENDER_DRAGON" -> EnderdragonMobMenu(data).create()
+        "ENDERMAN" -> EndermanMobMenu(data).create()
+        "EVOKER" -> EvokerMobMenu(data).create()
+        "FOX" -> FoxMobMenu(data).create()
+        "GHAST" -> GhastMobMenu(data).create()
+        "GIANT" -> GiantMobMenu(data).create()
+        "GLOW_SQUID" -> GlowSquidMobMenu(data).create()
+        "GOAT" -> GoatMobMenu(data).create()
+        "GUARDIAN" -> GuardianMobMenu(data).create()
+        "HOGLIN" -> HoglinMobMenu(data).create()
+        "HUSK" -> HuskMobMenu(data).create()
+        "HORSE" -> HorseMobMenu(data).create()
+        "ILLUSIONER" -> IllusionerMobMenu(data).create()
+        "IRON_GOLEM" -> IronGolemMobMenu(data).create()
+        "LLAMA" -> LlamaMobMenu(data).create()
+        "MAGMA_CUBE" -> MagmaCubeMobMenu(data).create()
+        "MUSHROOM_COW" -> MooshroomMobMenu(data).create()
+        "MULE" -> MuleMobMenu(data).create()
+        "OCELOT" -> OcelotMobMenu(data).create()
+        "PANDA" -> PandaMobMenu(data).create()
+        "PARROT" -> ParrotMobMenu(data).create()
+        "PHANTOM" -> PhantomMobMenu(data).create()
+        "PIGLIN_BRUTE" -> PiglinBruteMobMenu(data).create()
+        "PIGLIN" -> PiglinMobMenu(data).create()
+        "PIG" -> PigMobMenu(data).create()
+        "PILLAGER" -> PillagerMobMenu(data).create()
+        "POLAR_BEAR" -> PolarBearMobMenu(data).create()
+        "PUFFERFISH" -> PufferfishMobMenu(data).create()
+        "RABBIT" -> RabbitMobMenu(data).create()
+        "RAVAGER" -> RavagerMobMenu(data).create()
+        "SALMON" -> SalmonMobMenu(data).create()
+        "SHEEP" -> SheepMobMenu(data).create()
+        "SHULKER" -> ShulkerMobMenu(data).create()
+        "SILVERFISH" -> SilverfishMobMenu(data).create()
+        "SKELETON_HORSE" -> SkeletonMobMenu(data).create()
+        "SLIME" -> SlimeMobMenu(data).create()
+        "SNOWMAN" -> SnowmanMobMenu(data).create()
+        "SPIDER" -> SpiderMobMenu(data).create()
+        "STRAY" -> StrayMobMenu(data).create()
+        "TRADER_LLAMA" -> TraderLlamaMobMenu(data).create()
+        "TROPICAL_FISH" -> TropicalFishMobMenu(data).create()
+        "TURTLE" -> TurtleMobMenu(data).create()
+        "VEX" -> VexMobMenu(data).create()
+        "VILLAGER" -> VillagerMobMenu(data).create()
+        "VINDICATOR" -> VindicatorMobMenu(data).create()
+        "WANDERING_TRADER" -> WanderingTraderMobMenu(data).create()
+        "WITCH" -> WitchMobMenu(data).create()
+        "WITHER" -> WitherMobMenu(data).create()
+        "WITHER_SKELETON" -> WitherSkeletonMobMenu(data).create()
+        "WOLF" -> WolfMobMenu(data).create()
+        "ZOGLIN" -> ZoglinMobMenu(data).create()
+        "ZOMBIE_HORSE" -> HorseMobMenu(data).create()
+        "ZOMBIE" -> ZombieMobMenu(data).create()
+        "ZOMBIE_VILLAGER" -> ZombieVillagerMobMenu(data).create()
+        "ZOMBIFIED_PIGLIN" -> ZombifiedPiglinMobMenu(data).create()
+        else -> throw IllegalArgumentException("Could not find mob menu for ${this.name}")
     }
 }
