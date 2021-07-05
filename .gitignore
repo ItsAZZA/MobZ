@@ -29,3 +29,4 @@ bin/
 out/
 .build/
 generated/
+.DS_Store
