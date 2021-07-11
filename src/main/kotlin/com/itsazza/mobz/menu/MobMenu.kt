@@ -69,6 +69,7 @@ abstract class MobMenu(private val mobType: EntityType) {
 
     private fun createBasicAttributeButton(attribute: BasicMobAttribute) : GuiStateElement {
         val state = if (data.hasKey(attribute.nbtAttribute)) "true" else "false"
+        val description = attribute.description.map { "§7$it" }.toTypedArray()
 
         return GuiStateElement(
             '!',
@@ -89,7 +90,9 @@ abstract class MobMenu(private val mobType: EntityType) {
                 },
                 "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
                 "§0 ",
-                "§2➤ true",
+                *description,
+                "§0 ",
+                "§2➤ true §8/ false",
                 "§0 ",
                 "§eClick to toggle!"
             ),
@@ -101,7 +104,9 @@ abstract class MobMenu(private val mobType: EntityType) {
                 attribute.icon.item,
                 "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
                 "§0 ",
-                "§c➤ false",
+                *description,
+                "§0 ",
+                "§8true / §c➤ false",
                 "§0 ",
                 "§eClick to toggle!"
             )
