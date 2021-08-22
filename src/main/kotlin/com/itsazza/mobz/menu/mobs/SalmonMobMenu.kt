@@ -4,4 +4,4 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class SalmonMobMenu(override val data: NBTContainer) : MobMenu(EntityType.SALMON)
+class SalmonMobMenu : MobMenu(EntityType.SALMON)

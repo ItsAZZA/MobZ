@@ -4,4 +4,4 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class GhastMobMenu(override val data: NBTContainer) : MobMenu(EntityType.GHAST)
+class GhastMobMenu : MobMenu(EntityType.GHAST)

@@ -4,4 +4,6 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class EnderdragonMobMenu(override val data: NBTContainer) : MobMenu(EntityType.ENDER_DRAGON)
+class EnderdragonMobMenu : MobMenu(EntityType.ENDER_DRAGON) {
+    override val data: NBTContainer = NBTContainer("{EntityTag:{id:\"${mobType.key.toString().replace("minecraft:", "")}\"}}")
+}

@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class WanderingTraderMobMenu(override val data: NBTContainer) : MobMenu(EntityType.WANDERING_TRADER) {
+class WanderingTraderMobMenu : MobMenu(EntityType.WANDERING_TRADER) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.LEFT_HANDED)
     }

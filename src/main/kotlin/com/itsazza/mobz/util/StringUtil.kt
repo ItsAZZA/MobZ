@@ -1,11 +1,13 @@
 package com.itsazza.mobz.util
 
+import java.util.*
+
 object StringUtil {
-    fun bountifyCapitalized(string: String) : String {
+    fun beautifyCapitalized(string: String) : String {
         return string.split("_").joinToString(" ") { it.toLowerCase().capitalize() }
     }
 
-    fun bountifyLowerCase(string: String) : String {
+    fun beautifyLowerCase(string: String) : String {
         return string.split("_").joinToString(" ").toLowerCase()
     }
 }

@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class HuskMobMenu(override val data: NBTContainer) : MobMenu(EntityType.HUSK) {
+class HuskMobMenu : MobMenu(EntityType.HUSK) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.CAN_BREAK_DOORS)
         it.add(BasicMobAttribute.LEFT_HANDED)

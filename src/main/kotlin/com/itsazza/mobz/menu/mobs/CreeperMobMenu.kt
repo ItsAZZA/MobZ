@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class CreeperMobMenu(override val data: NBTContainer) : MobMenu(EntityType.CREEPER) {
+class CreeperMobMenu : MobMenu(EntityType.CREEPER) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.POWERED)
     }

@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class ZombieMobMenu(override val data: NBTContainer) : MobMenu(EntityType.ZOMBIE) {
+class ZombieMobMenu : MobMenu(EntityType.ZOMBIE) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.BABY)
         it.add(BasicMobAttribute.CAN_BREAK_DOORS)

@@ -8,16 +8,19 @@ import com.itsazza.mobz.util.NBT
 import com.itsazza.mobz.util.StringUtil
 import com.itsazza.mobz.util.item
 import com.itsazza.mobz.util.menu.Buttons
+import com.itsazza.mobz.util.mutateMeta
 import de.themoep.inventorygui.*
 import de.tr7zw.changeme.nbtapi.NBTContainer
+import de.tr7zw.changeme.nbtapi.NBTEntity
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
+import org.bukkit.inventory.meta.ItemMeta
 
-abstract class MobMenu(private val mobType: EntityType) {
-    abstract val data: NBTContainer
+abstract class MobMenu(val mobType: EntityType) {
+    open val data: NBTContainer = NBTContainer()
 
     private val gui: InventoryGui = InventoryGui(
         Mobz.instance,
@@ -28,18 +31,18 @@ abstract class MobMenu(private val mobType: EntityType) {
             " 0000000 ",
             " 0000000 ",
             " 0000000 ",
-            "< 12@34 >"
+            "< 12=34 >"
         )
     ).also {
         it.setCloseAction { false }
         it.setFiller(Material.GREEN_STAINED_GLASS_PANE.item)
         it.addElements(
-            Buttons.close,
+            Buttons.createBackButton(MobZMainMenu.create()),
             Buttons.nextPage,
             Buttons.previousPage,
+            spawnMobButton,
             spawnEggButton,
             commandBlockButton,
-            spawnerButton
         )
     }
 
@@ -54,7 +57,7 @@ abstract class MobMenu(private val mobType: EntityType) {
 
     open val buttons: MutableList<GuiElement> = mutableListOf()
 
-    open fun create() : InventoryGui {
+    open fun create(): InventoryGui {
         basicMobAttributes.forEach {
             buttons.add(createBasicAttributeButton(it))
         }
@@ -62,12 +65,12 @@ abstract class MobMenu(private val mobType: EntityType) {
         val group = GuiElementGroup('0')
         group.addElements(buttons)
 
-        gui.title = "${StringUtil.bountifyCapitalized(mobType.name)} Menu"
+        gui.title = "${StringUtil.beautifyCapitalized(mobType.name)} Menu"
         gui.addElement(group)
         return gui
     }
 
-    private fun createBasicAttributeButton(attribute: BasicMobAttribute) : GuiStateElement {
+    private fun createBasicAttributeButton(attribute: BasicMobAttribute): GuiStateElement {
         val state = if (data.hasKey(attribute.nbtAttribute)) "true" else "false"
         val description = attribute.description.map { "§7$it" }.toTypedArray()
 
@@ -84,11 +87,11 @@ abstract class MobMenu(private val mobType: EntityType) {
                 "true",
                 attribute.icon.item.also {
                     val itemMeta = it.itemMeta!!
-                    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+                    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES)
                     itemMeta.addEnchant(Enchantment.LUCK, 1, true)
                     it.itemMeta = itemMeta
                 },
-                "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
+                "§6§l${StringUtil.beautifyCapitalized(attribute.name)}",
                 "§0 ",
                 *description,
                 "§0 ",
@@ -101,8 +104,10 @@ abstract class MobMenu(private val mobType: EntityType) {
                     data.removeKey(attribute.nbtAttribute)
                 },
                 "false",
-                attribute.icon.item,
-                "§6§l${StringUtil.bountifyCapitalized(attribute.name)}",
+                attribute.icon.item.mutateMeta<ItemMeta> {
+                    it.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
+                },
+                "§6§l${StringUtil.beautifyCapitalized(attribute.name)}",
                 "§0 ",
                 *description,
                 "§0 ",
@@ -113,39 +118,73 @@ abstract class MobMenu(private val mobType: EntityType) {
         )
     }
 
+    open val spawnMobButton: StaticGuiElement
+        get() = StaticGuiElement(
+            '1',
+            Material.HEART_OF_THE_SEA.item,
+            {
+                val player = it.event.whoClicked as Player
+                val loc = player.location
+                val world = loc.world ?: return@StaticGuiElement true
+                val mob = world.spawnEntity(loc, mobType)
+                val nbtEntity = NBTEntity(mob)
+                data.removeKey("EntityTag")
+                nbtEntity.mergeCompound(data)
+                return@StaticGuiElement true
+            },
+            "§6§lSummon Mob",
+            "§0 ",
+            "§7Summons the created mob",
+            "§7with these settings at",
+            "§7your current location",
+            "§0 ",
+            "§eClick to summon!"
+        )
+
     open val spawnEggButton: StaticGuiElement
-    get() = StaticGuiElement(
-        '2',
-        mobType.spawnEgg.item,
-        {
-            val player = it.event.whoClicked as Player
-            player.inventory.addItem(NBT.spawnEgg(mobType.spawnEgg, data.toString()))
-            return@StaticGuiElement true
-        }
-    )
+        get() = StaticGuiElement(
+            '2',
+            mobType.spawnEgg.item,
+            {
+                val player = it.event.whoClicked as Player
+                player.inventory.addItem(NBT.spawnEgg(mobType.spawnEgg, data.toString()))
+                return@StaticGuiElement true
+            },
+            "§6§lSpawn Egg",
+            "§0 ",
+            "§7Get a spawn egg with this",
+            "§7mob and these settings",
+            "§0 ",
+            "§eClick to get!"
+        )
 
     private val commandBlockButton: StaticGuiElement
-    get() = StaticGuiElement(
-        '3',
-        Material.COMMAND_BLOCK.item,
-        {
-            val player = it.event.whoClicked as Player
-            val type = mobType.key.toString()
-            val command = "minecraft:summon $type ~ ~1 ~ $data"
-            val commandBlock = NBT.commandBlockWithCommand(command)
-            player.inventory.addItem(commandBlock)
-            return@StaticGuiElement true
-        }
-    )
-
-    private val spawnerButton: StaticGuiElement
-    get() = StaticGuiElement(
-        '4',
-        Material.SPAWNER.item,
-        {
-            val player = it.event.whoClicked as Player
-            player.inventory.addItem(NBT.spawner(mobType, data.toString()))
-            return@StaticGuiElement true
-        }
-    )
+        get() = StaticGuiElement(
+            '3',
+            Material.COMMAND_BLOCK.item,
+            {
+                val player = it.event.whoClicked as Player
+                val type = mobType.key.toString()
+                if (it.event.isLeftClick) {
+                    data.removeKey("EntityTag")
+                    val command = "minecraft:summon $type ~ ~1 ~ $data"
+                    val commandBlock = NBT.commandBlockWithCommand(command)
+                    player.inventory.addItem(commandBlock)
+                    return@StaticGuiElement true
+                }
+                else {
+                    val commandBlock = NBT.commandBlockWithSpawnerSetBlock(mobType, data.toString())
+                    player.inventory.addItem(commandBlock)
+                    return@StaticGuiElement true
+                }
+            },
+            "§6§lCommand Block",
+            "§0 ",
+            "§7Get a command block with",
+            "§7a summon or setblock command",
+            "§7for this mob and these settings",
+            "§0 ",
+            "§e§lL-CLICK §7for summon command",
+            "§e§lR-CLICK §7for setblock command"
+        )
 }

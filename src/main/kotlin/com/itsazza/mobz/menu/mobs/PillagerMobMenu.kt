@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class PillagerMobMenu(override val data: NBTContainer) : MobMenu(EntityType.PILLAGER) {
+class PillagerMobMenu : MobMenu(EntityType.PILLAGER) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.CAN_BREAK_DOORS)
         it.add(BasicMobAttribute.LEFT_HANDED)

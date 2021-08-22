@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class WitherSkeletonMobMenu(override val data: NBTContainer) : MobMenu(EntityType.WITHER_SKELETON) {
+class WitherSkeletonMobMenu : MobMenu(EntityType.WITHER_SKELETON) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.LEFT_HANDED)
     }

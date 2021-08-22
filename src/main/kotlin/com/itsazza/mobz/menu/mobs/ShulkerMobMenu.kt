@@ -4,4 +4,4 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class ShulkerMobMenu(override val data: NBTContainer) : MobMenu(EntityType.SHULKER)
+class ShulkerMobMenu : MobMenu(EntityType.SHULKER)

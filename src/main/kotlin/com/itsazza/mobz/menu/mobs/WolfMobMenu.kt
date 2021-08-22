@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class WolfMobMenu(override val data: NBTContainer) : MobMenu(EntityType.WOLF) {
+class WolfMobMenu : MobMenu(EntityType.WOLF) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.SITTING)
     }

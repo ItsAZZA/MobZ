@@ -4,4 +4,6 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class IronGolemMobMenu(override val data: NBTContainer) : MobMenu(EntityType.IRON_GOLEM)
+class IronGolemMobMenu : MobMenu(EntityType.IRON_GOLEM) {
+    override val data: NBTContainer = NBTContainer("{EntityTag:{id:\"${mobType.key.toString().replace("minecraft:", "")}\"}}")
+}

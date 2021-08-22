@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class GoatMobMenu(override val data: NBTContainer) : MobMenu(EntityType.GOAT) {
+class GoatMobMenu : MobMenu(EntityType.GOAT) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.BABY)
     }

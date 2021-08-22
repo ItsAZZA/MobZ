@@ -4,4 +4,4 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class ElderGuardianMobMenu(override val data: NBTContainer) : MobMenu(EntityType.ELDER_GUARDIAN)
+class ElderGuardianMobMenu : MobMenu(EntityType.ELDER_GUARDIAN)

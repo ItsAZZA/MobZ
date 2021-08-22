@@ -5,7 +5,7 @@ import com.itsazza.mobz.menu.MobMenu
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import org.bukkit.entity.EntityType
 
-class ZombifiedPiglinMobMenu(override val data: NBTContainer) : MobMenu(EntityType.ZOMBIFIED_PIGLIN) {
+class ZombifiedPiglinMobMenu : MobMenu(EntityType.ZOMBIFIED_PIGLIN) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.BABY)
         it.add(BasicMobAttribute.CAN_BREAK_DOORS)

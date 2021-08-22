@@ -1,6 +1,6 @@
 package com.itsazza.mobz
 
-import com.itsazza.mobz.command.TestCommand
+import com.itsazza.mobz.command.MobZCommand
 import org.bukkit.plugin.java.JavaPlugin
 
 class Mobz : JavaPlugin() {
@@ -9,9 +9,8 @@ class Mobz : JavaPlugin() {
             private set
     }
 
-
     override fun onEnable() {
         instance = this
-        getCommand("test")?.setExecutor(TestCommand)
+        getCommand("mobz")?.setExecutor(MobZCommand)
     }
 }
