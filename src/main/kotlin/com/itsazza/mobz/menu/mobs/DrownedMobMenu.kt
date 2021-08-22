@@ -1,8 +1,7 @@
 package com.itsazza.mobz.menu.mobs
 
-import com.itsazza.mobz.BasicMobAttribute
 import com.itsazza.mobz.menu.MobMenu
-import de.tr7zw.changeme.nbtapi.NBTContainer
+import com.itsazza.mobz.util.BasicMobAttribute
 import org.bukkit.entity.EntityType
 
 class DrownedMobMenu : MobMenu(EntityType.DROWNED) {

@@ -1,14 +1,9 @@
 package com.itsazza.mobz.menu
 
-import com.itsazza.mobz.AttributeDataType
-import com.itsazza.mobz.BasicMobAttribute
 import com.itsazza.mobz.Mobz
 import com.itsazza.mobz.spawnEgg
-import com.itsazza.mobz.util.NBT
-import com.itsazza.mobz.util.StringUtil
-import com.itsazza.mobz.util.item
+import com.itsazza.mobz.util.*
 import com.itsazza.mobz.util.menu.Buttons
-import com.itsazza.mobz.util.mutateMeta
 import de.themoep.inventorygui.*
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import de.tr7zw.changeme.nbtapi.NBTEntity
