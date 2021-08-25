@@ -80,11 +80,9 @@ abstract class MobMenu(val mobType: EntityType) {
                     }
                 },
                 "true",
-                attribute.icon.item.also {
-                    val itemMeta = it.itemMeta!!
-                    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES)
-                    itemMeta.addEnchant(Enchantment.LUCK, 1, true)
-                    it.itemMeta = itemMeta
+                attribute.icon.item.mutateMeta<ItemMeta> {
+                    it.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES)
+                    it.addEnchant(Enchantment.LUCK, 1, true)
                 },
                 "§6§l${StringUtil.beautifyCapitalized(attribute.name)}",
                 "§0 ",

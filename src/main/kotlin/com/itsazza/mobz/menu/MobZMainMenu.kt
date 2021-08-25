@@ -28,11 +28,9 @@ object MobZMainMenu {
             MenuTemplate.Type.LIST_MENU
         )
 
-        val listOfMobs = EntityType.values().filter {
-            it.isSpawnable && it.isAlive
-        }.sortedBy {
-            it.name
-        }
+        val listOfMobs = EntityType.values()
+            .filter { it.isSpawnable && it.isAlive }
+            .sortedBy { it.name }
 
         val group = GuiElementGroup('0')
         for (mob in listOfMobs) {
