@@ -1,6 +1,7 @@
 package com.itsazza.mobz.menu
 
 import com.itsazza.mobz.Mobz
+import com.itsazza.mobz.menu.mobs.TraderLlamaMobMenu
 import com.itsazza.mobz.spawnEgg
 import com.itsazza.mobz.util.*
 import com.itsazza.mobz.util.menu.Buttons
@@ -54,7 +55,10 @@ abstract class MobMenu(val mobType: EntityType) {
 
     open fun create(): InventoryGui {
         basicMobAttributes.forEach {
-            buttons.add(createBasicAttributeButton(it))
+            buttons.add(createBasicAttributeButton(it).also { button ->
+                button.setState(if (data.hasKey(it.nbtAttribute) || it.dataType == AttributeDataType.BYTE_ZERO) "true" else "false")
+            }
+            )
         }
 
         val group = GuiElementGroup('0')
@@ -66,17 +70,16 @@ abstract class MobMenu(val mobType: EntityType) {
     }
 
     private fun createBasicAttributeButton(attribute: BasicMobAttribute): GuiStateElement {
-        val state = if (data.hasKey(attribute.nbtAttribute)) "true" else "false"
         val description = attribute.description.map { "§7$it" }.toTypedArray()
 
         return GuiStateElement(
             '!',
-            state,
             GuiStateElement.State(
                 {
                     when (attribute.dataType) {
                         AttributeDataType.INT -> data.setInteger(attribute.nbtAttribute, 1)
                         AttributeDataType.BYTE -> data.setByte(attribute.nbtAttribute, 1.toByte())
+                        AttributeDataType.BYTE_ZERO -> data.removeKey(attribute.nbtAttribute)
                     }
                 },
                 "true",
@@ -85,7 +88,6 @@ abstract class MobMenu(val mobType: EntityType) {
                     it.addEnchant(Enchantment.LUCK, 1, true)
                 },
                 "§6§l${StringUtil.beautifyCapitalized(attribute.name)}",
-                "§0 ",
                 *description,
                 "§0 ",
                 "§2➤ true §8/ false",
@@ -94,14 +96,18 @@ abstract class MobMenu(val mobType: EntityType) {
             ),
             GuiStateElement.State(
                 {
-                    data.removeKey(attribute.nbtAttribute)
+                    when (attribute.dataType) {
+                        AttributeDataType.BYTE_ZERO -> {
+                            data.setByte(attribute.nbtAttribute, 0.toByte())
+                        }
+                        else -> data.removeKey(attribute.nbtAttribute)
+                    }
                 },
                 "false",
                 attribute.icon.item.mutateMeta<ItemMeta> {
                     it.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS)
                 },
                 "§6§l${StringUtil.beautifyCapitalized(attribute.name)}",
-                "§0 ",
                 *description,
                 "§0 ",
                 "§8true / §c➤ false",
@@ -126,7 +132,6 @@ abstract class MobMenu(val mobType: EntityType) {
                 return@StaticGuiElement true
             },
             "§6§lSummon Mob",
-            "§0 ",
             "§7Summons the created mob",
             "§7with these settings at",
             "§7your current location",
@@ -144,7 +149,6 @@ abstract class MobMenu(val mobType: EntityType) {
                 return@StaticGuiElement true
             },
             "§6§lSpawn Egg",
-            "§0 ",
             "§7Get a spawn egg with this",
             "§7mob and these settings",
             "§0 ",
@@ -180,4 +184,46 @@ abstract class MobMenu(val mobType: EntityType) {
             "§e§lL-CLICK §7for summon command",
             "§e§lR-CLICK §7for setblock command"
         )
+
+    fun typeSelector(types: Array<String>, dataID: String, dataName: String, description: List<String>, material: Material, defaultState: String = "Random", offSet: Int = 0): GuiStateElement {
+        val states = arrayListOf<GuiStateElement.State>()
+        val typeAmount = types.size
+        val icon = material.item
+
+        types.forEachIndexed { index, type ->
+            states.add(
+                GuiStateElement.State(
+                    {
+                        data.setInteger(dataID, index + offSet)
+                    },
+                    "${index + offSet}",
+                    icon,
+                    "§6§l$dataName",
+                    *description.map{ "§7$it" }.toTypedArray(),
+                    "§0 ",
+                    "§7Current: §e$type §8(${index + 1}/${typeAmount})",
+                    "§0 ",
+                    "§eClick to toggle!"
+                )
+            )
+        }
+
+        return GuiStateElement(
+            '!',
+            GuiStateElement.State(
+                {
+                    data.removeKey(dataID)
+                },
+                "0",
+                icon,
+                "§6§l$dataName",
+                *description.map{ "§7$it" }.toTypedArray(),
+                "§0 ",
+                "§7Current: §e$defaultState §8(0/${typeAmount})",
+                "§0 ",
+                "§eClick to toggle!"
+            ),
+            *states.toTypedArray()
+        )
+    }
 }
