@@ -1,5 +1,5 @@
 name: Mobz
-version: 0.1-BETA
+version: 0.1.1-BETA
 main: com.itsazza.mobz.Mobz
 api-version: 1.13
 commands:
