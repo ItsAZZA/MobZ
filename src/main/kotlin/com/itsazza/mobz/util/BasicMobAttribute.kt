@@ -118,5 +118,12 @@ enum class BasicMobAttribute (
             "Sets whether the bee has",
             "stung and has lost its stinger"
         )
+    ),
+    SNOWMAN_PUMPKIN(
+        "Pumpkin", AttributeDataType.BYTE_ZERO, Material.PUMPKIN,
+        listOf(
+            "Sets whether the snowman has",
+            "a pumpkin on its head or not"
+        )
     )
 }
