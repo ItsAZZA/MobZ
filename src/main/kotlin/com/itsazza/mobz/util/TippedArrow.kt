@@ -8,10 +8,8 @@ import org.bukkit.inventory.meta.PotionMeta
 
 
 fun tippedArrow(color: Color) : ItemStack {
-    val arrow = Material.TIPPED_ARROW.item
-    val arrowMeta = arrow.itemMeta as PotionMeta
-    arrowMeta.color = color
-    arrowMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
-    arrow.itemMeta = arrowMeta
-    return arrow
+    return Material.TIPPED_ARROW.item.mutateMeta<PotionMeta> {
+        it.color = color
+        it.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+    }
 }
