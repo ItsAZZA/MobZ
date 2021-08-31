@@ -13,6 +13,7 @@ import de.themoep.inventorygui.StaticGuiElement
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import de.tr7zw.changeme.nbtapi.NBTItem
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.ItemMeta
@@ -56,7 +57,10 @@ object MobZMainMenu {
             {
                 val player = it.event.whoClicked as Player
                 if (it.event.isLeftClick) {
-                    entityType.menu.create().show(player)
+                    entityType.menu?.create()?.show(player) ?: run {
+                        player.sendMessage("§cNo menu found for the mob!")
+                        player.playSound(player.location, Sound.ENTITY_VILLAGER_NO, 1f, 1f)
+                    }
                     return@StaticGuiElement true
                 } else if (it.event.isRightClick) {
                     giveSpawnEgg(player, entityType)
