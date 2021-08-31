@@ -168,8 +168,7 @@ abstract class MobMenu(val mobType: EntityType) {
                     val commandBlock = NBT.commandBlockWithCommand(command)
                     player.inventory.addItem(commandBlock)
                     return@StaticGuiElement true
-                }
-                else {
+                } else {
                     val commandBlock = NBT.commandBlockWithSpawnerSetBlock(mobType, data.toString())
                     player.inventory.addItem(commandBlock)
                     return@StaticGuiElement true
