@@ -56,7 +56,7 @@ object MobZMainMenu {
             {
                 val player = it.event.whoClicked as Player
                 if (it.event.isLeftClick) {
-                    entityType.menu().create().show(player)
+                    entityType.menu.create().show(player)
                     return@StaticGuiElement true
                 } else if (it.event.isRightClick) {
                     giveSpawnEgg(player, entityType)

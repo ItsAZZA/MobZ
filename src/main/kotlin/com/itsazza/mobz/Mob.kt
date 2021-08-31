@@ -16,8 +16,8 @@ val EntityType.spawnEgg: Material
         else -> Material.values().firstOrNull { it.name == "${this.name}_SPAWN_EGG" } ?: Material.SHEEP_SPAWN_EGG
     }
 
-fun EntityType.menu(): MobMenu {
-    return when (this.name) {
+val EntityType.menu: MobMenu
+    get() = when (this.name) {
         "ARMOR_STAND" -> ArmorStandMobMenu()
         "AXOLOTL" -> AxolotlMobMenu()
         "BAT" -> BatMobMenu()
@@ -93,4 +93,3 @@ fun EntityType.menu(): MobMenu {
         "ZOMBIFIED_PIGLIN" -> ZombifiedPiglinMobMenu()
         else -> throw IllegalArgumentException("Could not find mob menu for ${this.name}")
     }
-}
