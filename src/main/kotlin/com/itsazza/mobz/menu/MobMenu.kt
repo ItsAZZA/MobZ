@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta
 
 abstract class MobMenu(val mobType: EntityType) {
     open val data: NBTContainer = NBTContainer()
+    lateinit var menuInstance: InventoryGui
 
     private val gui: InventoryGui = InventoryGui(
         Mobz.instance,
@@ -66,6 +67,7 @@ abstract class MobMenu(val mobType: EntityType) {
 
         gui.title = "${StringUtil.beautifyCapitalized(mobType.name)} Menu"
         gui.addElement(group)
+        menuInstance = gui
         return gui
     }
 

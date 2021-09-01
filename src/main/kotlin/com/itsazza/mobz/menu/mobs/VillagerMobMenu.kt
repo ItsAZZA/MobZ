@@ -15,7 +15,6 @@ import org.bukkit.entity.Villager
 
 class VillagerMobMenu : MobMenu(EntityType.VILLAGER) {
     private val villagerData = NBTContainer("{profession:farmer,level:0,type:plains}")
-    lateinit var mainMenu: InventoryGui
 
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.LEFT_HANDED)
@@ -23,12 +22,6 @@ class VillagerMobMenu : MobMenu(EntityType.VILLAGER) {
 
     override val buttons = super.buttons.also {
         it.add(villagerTypeButton)
-    }
-
-    override fun create(): InventoryGui {
-        return super.create().also {
-            mainMenu = it
-        }
     }
 
     private val villagerTypeButton : StaticGuiElement
@@ -81,7 +74,7 @@ class VillagerMobMenu : MobMenu(EntityType.VILLAGER) {
                 val player = it.event.whoClicked as Player
                 val finalVillagerData = NBTContainer("{VillagerData:$villagerData}")
                 data.mergeCompound(finalVillagerData)
-                mainMenu.show(player)
+                menuInstance.show(player)
                 return@addElement true
             },
             "§2§lSave Data",
