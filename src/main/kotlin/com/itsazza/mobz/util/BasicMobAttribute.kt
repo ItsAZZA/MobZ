@@ -232,7 +232,7 @@ enum class BasicMobAttribute (
         )
     ),
     IGNITED(
-        "Ignited", AttributeDataType.INT, Material.FLINT_AND_STEEL,
+        "ignited", AttributeDataType.INT, Material.FLINT_AND_STEEL,
         listOf(
             "Sets whether the creeper",
             "is ignited or not"
