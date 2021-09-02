@@ -9,5 +9,6 @@ class DonkeyMobMenu : MobMenu(EntityType.DONKEY) {
         it.add(BasicMobAttribute.BABY)
         it.add(BasicMobAttribute.TAME)
         it.add(BasicMobAttribute.WITH_CHEST)
+        it.add(BasicMobAttribute.EATING_HAYSTACK)
     }
 }

@@ -8,5 +8,6 @@ class SkeletonHorseMobMenu : MobMenu(EntityType.SKELETON_HORSE) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.BABY)
         it.add(BasicMobAttribute.TAME)
+        it.add(BasicMobAttribute.EATING_HAYSTACK)
     }
 }

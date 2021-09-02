@@ -7,5 +7,6 @@ import org.bukkit.entity.EntityType
 class OcelotMobMenu : MobMenu(EntityType.OCELOT) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.BABY)
+        it.add(BasicMobAttribute.TRUSTING)
     }
 }

@@ -77,7 +77,7 @@ enum class BasicMobAttribute (
         )
     ),
     TAME(
-        "Tame", AttributeDataType.INT, Material.HAY_BLOCK,
+        "Tame", AttributeDataType.INT, Material.WHEAT,
         listOf(
             "Should the mob be tamed",
             "or not"
@@ -124,6 +124,118 @@ enum class BasicMobAttribute (
         listOf(
             "Sets whether the snowman has",
             "a pumpkin on its head or not"
+        )
+    ),
+    SHEARED(
+        "Sheared", AttributeDataType.INT, Material.SHEARS,
+        listOf(
+            "Sets whether the sheep is",
+            "sheared or not"
+        )
+    ),
+    NO_GRAVITY(
+        "NoGravity", AttributeDataType.BYTE, Material.GRAVEL,
+        listOf(
+            "Sets whether the mob will",
+            "have gravity or not. If set to",
+            "true the mob will not fall if",
+            "in the air"
+        )
+    ),
+    VISUAL_FIRE(
+        "HasVisualFire", AttributeDataType.BYTE, Material.CAMPFIRE,
+        listOf(
+            "Sets whether the mob has",
+            "visual fire effect or not, which",
+            "will not physically damage it"
+        )
+    ),
+    FROM_BUCKET(
+        "FromBucket", AttributeDataType.INT, Material.BUCKET,
+        listOf(
+            "Sets whether the mob was",
+            "spawned from a bucket, which",
+            "means they won't despawn naturally"
+        )
+    ),
+    EATING_HAYSTACK(
+        "EatingHaystack", AttributeDataType.INT, Material.HAY_BLOCK,
+        listOf(
+            "Sets whether the mob is",
+            "eating a hay stack or not"
+        )
+    ),
+    PLAYER_SPAWNED(
+        "PlayerSpawned", AttributeDataType.INT, Material.ENDERMITE_SPAWN_EGG,
+        listOf(
+            "Sets whether the mob was",
+            "spawned in by a player"
+        )
+    ),
+    SLEEPING(
+        "Sleeping", AttributeDataType.INT, Material.RED_BED,
+        listOf(
+            "Sets whether the mob is",
+            "sleeping or not"
+        )
+    ),
+    CROUCHING(
+        "Crouching", AttributeDataType.INT, Material.REDSTONE,
+        listOf(
+            "Sets whether the mob is",
+            "crouching or not"
+        )
+    ),
+    SCREAMING_GOAT(
+        "IsScreamingGoat", AttributeDataType.INT, Material.NOTE_BLOCK,
+        listOf(
+            "Sets whether the goat mob is",
+            "a screaming goat or not"
+        )
+    ),
+    JOHNNY(
+        "Johnny", AttributeDataType.INT, Material.IRON_AXE,
+        listOf(
+            "Sets whether the vindicator",
+            "is Johnny or not"
+        )
+    ),
+    HAS_EGG(
+        "HasEgg", AttributeDataType.INT, Material.TURTLE_EGG,
+        listOf(
+            "Sets whether the turtle",
+            "has an egg or not"
+        )
+    ),
+    TRUSTING(
+        "Trusting", AttributeDataType.INT, Material.LEAD,
+        listOf(
+            "Sets whether the ocelot mob",
+            "trusts the player or not"
+        )
+    ),
+    PLAYER_CREATED(
+        "PlayerCreated", AttributeDataType.INT, Material.IRON_BLOCK,
+        listOf(
+            "Sets whether the iron golem",
+            "mob was spawned by a player,",
+            "which makes it never attack the",
+            "player"
+        )
+    ),
+    BAT_FLAGS(
+        "BatFlags", AttributeDataType.INT, Material.BAT_SPAWN_EGG,
+        listOf(
+            "Sets whether the bat",
+            "appears to be hanging",
+            "from a block"
+        )
+    ),
+    IGNITED(
+        "Ignited", AttributeDataType.INT, Material.FLINT_AND_STEEL,
+        listOf(
+            "Sets whether the creeper",
+            "is ignited or not"
         )
     )
 }

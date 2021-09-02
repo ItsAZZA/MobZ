@@ -8,6 +8,7 @@ import org.bukkit.entity.EntityType
 class TraderLlamaMobMenu : MobMenu(EntityType.TRADER_LLAMA) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.TAME)
+        it.add(BasicMobAttribute.EATING_HAYSTACK)
     }
 
     override val buttons = super.buttons.also {

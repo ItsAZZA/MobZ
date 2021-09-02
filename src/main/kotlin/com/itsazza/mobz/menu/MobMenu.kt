@@ -25,7 +25,6 @@ abstract class MobMenu(val mobType: EntityType) {
     open var data: NBTContainer = NBTContainer()
     lateinit var menuInstance: InventoryGui
 
-
     private val gui: InventoryGui = InventoryGui(
         Mobz.instance,
         null,
@@ -56,7 +55,9 @@ abstract class MobMenu(val mobType: EntityType) {
         BasicMobAttribute.INVULNERABLE,
         BasicMobAttribute.SILENT,
         BasicMobAttribute.CAN_PICK_UP_LOOT,
-        BasicMobAttribute.GLOWING
+        BasicMobAttribute.GLOWING,
+        BasicMobAttribute.NO_GRAVITY,
+        BasicMobAttribute.VISUAL_FIRE
     )
 
     open val buttons: MutableList<GuiElement> = mutableListOf()
@@ -183,7 +184,6 @@ abstract class MobMenu(val mobType: EntityType) {
                 }
             },
             "§6§lCommand Block",
-            "§0 ",
             "§7Get a command block with",
             "§7a summon or setblock command",
             "§7for this mob and these settings",

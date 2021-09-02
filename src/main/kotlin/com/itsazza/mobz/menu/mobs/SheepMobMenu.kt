@@ -7,5 +7,6 @@ import org.bukkit.entity.EntityType
 class SheepMobMenu : MobMenu(EntityType.SHEEP) {
     override val basicMobAttributes = super.basicMobAttributes.also {
         it.add(BasicMobAttribute.BABY)
+        it.add(BasicMobAttribute.SHEARED)
     }
 }
