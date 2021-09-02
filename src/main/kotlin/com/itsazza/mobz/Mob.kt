@@ -74,6 +74,7 @@ fun mobMenu(name: String) : MobMenu? {
         "SNOWMAN" -> SnowmanMobMenu()
         "SPIDER" -> SpiderMobMenu()
         "STRAY" -> StrayMobMenu()
+        "STRIDER" -> StriderMobMenu()
         "SQUID" -> SquidMobMenu()
         "TRADER_LLAMA" -> TraderLlamaMobMenu()
         "TROPICAL_FISH" -> TropicalFishMobMenu()
