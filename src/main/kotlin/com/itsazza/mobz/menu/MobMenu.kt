@@ -1,23 +1,30 @@
 package com.itsazza.mobz.menu
 
 import com.itsazza.mobz.Mobz
-import com.itsazza.mobz.menu.mobs.TraderLlamaMobMenu
+import com.itsazza.mobz.menu.potion.MobPotionCreateMenu
+import com.itsazza.mobz.menu.potion.MobPotionMenu
 import com.itsazza.mobz.spawnEgg
 import com.itsazza.mobz.util.*
 import com.itsazza.mobz.util.menu.Buttons
 import de.themoep.inventorygui.*
 import de.tr7zw.changeme.nbtapi.NBTContainer
 import de.tr7zw.changeme.nbtapi.NBTEntity
+import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
+import java.lang.NullPointerException
 
 abstract class MobMenu(val mobType: EntityType) {
-    open val data: NBTContainer = NBTContainer()
+    open var data: NBTContainer = NBTContainer()
     lateinit var menuInstance: InventoryGui
+
 
     private val gui: InventoryGui = InventoryGui(
         Mobz.instance,
@@ -56,15 +63,12 @@ abstract class MobMenu(val mobType: EntityType) {
 
     open fun create(): InventoryGui {
         basicMobAttributes.forEach {
-            buttons.add(createBasicAttributeButton(it).also { button ->
-                button.setState(if (data.hasKey(it.nbtAttribute) || it.dataType == AttributeDataType.BYTE_ZERO) "true" else "false")
-            }
-            )
+            buttons.add(createBasicAttributeButton(it))
         }
 
         val group = GuiElementGroup('0')
         group.addElements(buttons)
-
+        group.addElement(createPotionEffectButton())
         gui.title = "${StringUtil.beautifyCapitalized(mobType.name)} Menu"
         gui.addElement(group)
         menuInstance = gui
@@ -73,9 +77,11 @@ abstract class MobMenu(val mobType: EntityType) {
 
     private fun createBasicAttributeButton(attribute: BasicMobAttribute): GuiStateElement {
         val description = attribute.description.map { "§7$it" }.toTypedArray()
+        val state = if (data.hasKey(attribute.nbtAttribute) || attribute.dataType == AttributeDataType.BYTE_ZERO) "true" else "false"
 
         return GuiStateElement(
             '!',
+            state,
             GuiStateElement.State(
                 {
                     when (attribute.dataType) {
@@ -185,6 +191,44 @@ abstract class MobMenu(val mobType: EntityType) {
             "§e§lL-CLICK §7for summon command",
             "§e§lR-CLICK §7for setblock command"
         )
+
+    @Suppress("DEPRECATION")
+    private fun createPotionEffectButton(): StaticGuiElement {
+        return StaticGuiElement(
+            '!',
+            Material.POTION.item.mutateMeta<PotionMeta> {
+                it.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS)
+                it.color = Color.ORANGE
+            },
+            {
+                val player = it.event.whoClicked as Player
+                val potionsApplied = data.hasKey("ActiveEffects")
+                if (potionsApplied) {
+                    val list = data.getCompoundList("ActiveEffects")
+                    val potionEffects = HashSet<PotionEffect>()
+                    list.forEach { compound ->
+                        val effectID = compound.getInteger("Id")
+                        val effect = PotionEffectType.getById(effectID) ?: throw NullPointerException()
+                        val amplifier = compound.getInteger("Amplifier")
+                        val duration = compound.getInteger("Duration")
+                        val ambient = compound.getByte("Ambient").toBoolean
+                        val showParticles = compound.getByte("ShowParticles").toBoolean
+                        potionEffects.add(PotionEffect(effect, duration, amplifier, ambient, showParticles))
+                    }
+                    MobPotionMenu(data, this, potionEffects).open(player)
+                    return@StaticGuiElement true
+                }
+                MobPotionMenu(data, this).open(player)
+                return@StaticGuiElement true
+            },
+            "§6§lPotion Effect",
+            "§7Select potion effect(s) for",
+            "§7this mob in a potion effect",
+            "§7creation menu",
+            "§0 ",
+            "§eClick to open!"
+        )
+    }
 
     fun typeSelector(types: Array<String>, dataID: String, dataName: String, description: List<String>, material: Material, defaultState: String = "Random", offSet: Int = 0): GuiStateElement {
         val states = arrayListOf<GuiStateElement.State>()
