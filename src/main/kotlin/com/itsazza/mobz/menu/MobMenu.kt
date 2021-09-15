@@ -1,7 +1,7 @@
 package com.itsazza.mobz.menu
 
 import com.itsazza.mobz.Mobz
-import com.itsazza.mobz.menu.potion.MobPotionCreateMenu
+import com.itsazza.mobz.menu.equipment.MobEquipmentMenu
 import com.itsazza.mobz.menu.potion.MobPotionMenu
 import com.itsazza.mobz.spawnEgg
 import com.itsazza.mobz.util.*
@@ -69,7 +69,10 @@ abstract class MobMenu(val mobType: EntityType) {
 
         val group = GuiElementGroup('0')
         group.addElements(buttons)
-        group.addElement(createPotionEffectButton())
+        group.addElements(
+            createPotionEffectButton(),
+            mobArmorButton
+        )
         gui.title = "${StringUtil.beautifyCapitalized(mobType.name)} Menu"
         gui.addElement(group)
         menuInstance = gui
@@ -229,6 +232,23 @@ abstract class MobMenu(val mobType: EntityType) {
             "§eClick to open!"
         )
     }
+
+    private val mobArmorButton : StaticGuiElement
+    get() = StaticGuiElement(
+        '!',
+        Material.DIAMOND_CHESTPLATE.item,
+        {
+            val player = it.event.whoClicked as Player
+            MobEquipmentMenu(data, mutableMapOf(), this).open(player)
+            return@StaticGuiElement true
+        },
+        "§6§lMob Equipment",
+        "§7Opens a menu where you can",
+        "§7select what the mob will be",
+        "§7wearing and equipping",
+        "§0 ",
+        "§eClick to open!"
+    )
 
     fun typeSelector(types: Array<String>, dataID: String, dataName: String, description: List<String>, material: Material, defaultState: String = "Random", offSet: Int = 0): GuiStateElement {
         val states = arrayListOf<GuiStateElement.State>()

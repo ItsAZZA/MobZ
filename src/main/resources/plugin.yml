@@ -1,7 +1,9 @@
 name: Mobz
 version: 0.2.0-BETA
 main: com.itsazza.mobz.Mobz
-api-version: 1.13
+api-version: 1.16
+libraries:
+  - 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
 commands:
   mobz:
     aliases: ["mobs"]

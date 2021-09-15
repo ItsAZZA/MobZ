@@ -1,5 +1,5 @@
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.21"
+    id "org.jetbrains.kotlin.jvm" version "1.4.32"
     id "com.github.johnrengelman.shadow" version "6.1.0"
 }
 
@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
     compileOnly "org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT"
     implementation "de.themoep:inventorygui:1.4.2-SNAPSHOT"
     implementation "de.tr7zw:item-nbt-api:2.8.0"
